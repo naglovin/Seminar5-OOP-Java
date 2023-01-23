@@ -10,15 +10,18 @@ import data.Student;
 import service.StudentService;
 import terminal.executable.*;
 
-public class CommandExecutableFactor {
+public class CommandExecutableFactoryImpl implements CommandExucutableFactory{
     private StudentService studentService;
-    public CommandExecutableFactor(){
+    private int yearOfBirth;
+
+    public CommandExecutableFactoryImpl(StudentService studentService){
         this.studentService = null;
     }
+    @Override
     public CommandExecutable create (Command input){
         if (input.isCreateCommand()){
             return new CreateStudentExecutable(
-                    studentService, new Student(input.getFirstArgument()));
+                    studentService, new Student(input.getFirstArgument(), yearOfBirth));
         }
 //        if (input[0].equals("/delName")){
 //                return new DeleteStudentName(
@@ -33,7 +36,7 @@ public class CommandExecutableFactor {
 //                    studentService, new Student(input[1]));
         else if (input.isDeleteCommand()){
             return new DeleteStudentExecutable(
-                    studentService, new Student(input.getFirstArgument()));
+                    studentService, new Student(input.getFirstArgument(), yearOfBirth));
         }
             return null;
 
